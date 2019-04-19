@@ -1,0 +1,37 @@
+<div class="m-3">
+  <div class="row justify-content-center">
+    <div class="col-12 col-sm-12 col-md-4">
+      <form [formGroup]="taskForm" novalidate (ngSubmit)="onSubmit()">
+        <mat-card class="shipping-card" [ngClass]="routerAnimationClass">
+          <mat-card-header>
+            <mat-card-title>{{this.editing ? 'Edit' : 'New'}} Text File</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="row">
+              <div class="col mb-3">
+                <mat-form-field class="full-width">
+                  <textarea matInput placeholder="Text" formControlName="description"></textarea>
+                </mat-form-field>
+                <!-- <mat-checkbox formControlName="descSameAsTitle" class="font-size-sm">Same as title</mat-checkbox> -->
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <mat-form-field class="full-width">
+                  <input matInput placeholder="Email" formControlName="email" #userEmail>
+                  <mat-error *ngIf="taskForm.controls['email'].hasError('required')">
+                    Email is <strong>required as we will contact you once audio is ready</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </mat-card-content>
+          <mat-card-actions class="text-center">
+            <button mat-raised-button color="primary" type="submit">{{this.editing ? 'Update' : 'Submit'}}</button>
+            <button mat-raised-button color="accent" type="reset" *ngIf="this.editing" [routerLink]="['../list']">Cancel</button>
+          </mat-card-actions>
+        </mat-card>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,105 @@
+<div class="grid-container m-3">
+  <mat-card [ngClass]="routerAnimationClass" class="mb-3">
+    <mat-card-header>
+      <mat-card-title>
+        <h1 class="mat-h1">Tasks</h1>
+      </mat-card-title>
+      <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Toggle menu" class="ml-auto">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu" xPosition="before">
+        <button mat-menu-item>Expand</button>
+        <button mat-menu-item>Remove</button>
+      </mat-menu>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="row justify-content-end">
+        <div class="col-auto">
+          <button mat-raised-button color="primary" [routerLink]="['../add']">
+            <mat-icon>add</mat-icon> Add Task
+          </button>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  <div class="d-flex justify-content-center flex-column align-items-center my-5 py-5" [ngClass]="routerAnimationClass"
+    *ngIf="!dataSource.data.length">
+    <h2 class="font-weight-light">It's empty here. Why don't you create your first task?</h2>
+    <img class="img-fluid" src="assets/images/svg/empty-box-open.svg" alt="empty-box-open icon made by Freepik from www.flaticon.com"
+      height="300">
+  </div>
+  <mat-card [ngClass]="{routerAnimationClass : true, 'd-none': !dataSource.data.length}" class="mb-3">
+    <div class="full-table-container">
+      <div class="loading-shade" *ngIf="isLoadingResults">
+        <mat-spinner></mat-spinner>
+      </div>
+      <table mat-table class="full-width-table" [dataSource]="dataSource" matSort matSortDirection="asc" aria-label="Tasks">
+        <!-- Checkbox Column -->
+        <ng-container matColumnDef="select">
+          <th mat-header-cell *matHeaderCellDef>
+            <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()"
+              [indeterminate]="selection.hasValue() && !isAllSelected()">
+            </mat-checkbox>
+            <button mat-button [matMenuTriggerFor]="tableMenu" aria-label="Table menu" [disabled]="paginator.length <= paginator.pageSize">
+              {{(isAllSelectedDb ? paginator.length :
+              selection.selected.length) + '/' + paginator.length}} <mat-icon>arrow_drop_down</mat-icon>
+            </button>
+            <mat-menu #tableMenu="matMenu" xPosition="before">
+              <button mat-menu-item (click)="!isAllSelected() ? masterToggle() : toggleAllSelectedDb();">
+                <mat-icon *ngIf="isAllSelected() && !isAllSelectedDb;else blankPage">check_box</mat-icon>
+                <ng-template #blankPage>
+                  <mat-icon>check_box_outline_blank</mat-icon>
+                </ng-template> {{paginator.pageSize}} of this
+                page.
+              </button>
+              <button mat-menu-item (click)="toggleAllSelectedDb()">
+                <mat-icon *ngIf="isAllSelected() && isAllSelectedDb;else blankAll">check_box</mat-icon>
+                <ng-template #blankAll>
+                  <mat-icon>check_box_outline_blank</mat-icon>
+                </ng-template>
+                All from all pages.
+              </button>
+            </mat-menu>
+          </th>
+          <td mat-cell *matCellDef="let row">
+            <mat-checkbox (click)="$event.stopPropagation()" (change)="onRowSelectionChange($event, row._id)" [checked]="selection.isSelected(row._id)">
+            </mat-checkbox>
+          </td>
+        </ng-container>
+
+        <!-- Title Column -->
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
+          <td mat-cell *matCellDef="let row">{{row.email}}</td>
+        </ng-container>
+
+        <!-- Description Column -->
+        <ng-container matColumnDef="description">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Description</th>
+          <td mat-cell *matCellDef="let row">
+            {{row.description}}
+          </td>
+        </ng-container>
+
+        <!-- Delete Column -->
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let row" class="action-column">
+            <!-- <button mat-icon-button color="accent" [routerLink]="['../edit']" [queryParams]="{id: row._id}">
+              <mat-icon>edit</mat-icon>
+            </button> -->
+            <button mat-icon-button color="accent" (click)="delete(row)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </div>
+    <mat-paginator #paginator [length]="dataSource.data.length" [pageIndex]="0" [pageSize]="10" [pageSizeOptions]="[10,25,50,100]"
+      [showFirstLastButtons]="true">
+    </mat-paginator>
+  </mat-card>
+</div>

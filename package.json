@@ -1,0 +1,37 @@
+{
+  "name": "mean-material-app",
+  "version": "0.0.1",
+  "description": "A MEAN stack app with Angular 7, Material Design, Bootstrap 4, Node, Express, JWT, Mongoose, MongoDB",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "npm-run-all": "^4.1.5"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start-backend": "npm start --prefix ./backend",
+    "start-frontend": "npm start --prefix ./frontend",
+    "start": "npm start --prefix ./frontend & npm start --prefix ./backend"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shhdharmen/mean-material-app.git"
+  },
+  "keywords": [
+    "MEAN Stack",
+    "Angular 7",
+    "Material Design",
+    "Bootstrap 4",
+    "Node",
+    "Express",
+    "JWT",
+    "Mongoose",
+    "MongoDB"
+  ],
+  "author": "Dharmen Shah",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shhdharmen/mean-material-app/issues"
+  },
+  "homepage": "https://github.com/shhdharmen/mean-material-app#readme"
+}

@@ -1,0 +1,21 @@
+{
+  "name": "backend",
+  "version": "0.0.1",
+  "description": "An express based server which uses jwt and mongoose.",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon",
+    "generate": "node fakeData.js > database.json"
+  },
+  "keywords": [],
+  "author": "Dharmen Shah",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.16.4",
+    "express-jwt": "^5.3.1",
+    "jsonwebtoken": "^8.3.0",
+    "mongoose": "^5.3.7",
+    "mongoose-paginate": "^5.0.3"
+  }
+}
