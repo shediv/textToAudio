@@ -2,8 +2,8 @@
 ## Getting Started
 ### Run your app
 ```
-git clone https://github.com/shhdharmen/mean-material-app.git
-cd mean-material-app
+git clone https://github.com/shediv/textToAudio.git
+cd textToAudio
 npm i
 cd frontend
 npm i
