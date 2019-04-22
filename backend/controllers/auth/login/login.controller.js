@@ -20,6 +20,10 @@ router.get('/', function(req, res){
     child.stderr.pipe(process.stderr)
 });
 
+router.get('/test', function(req, res){
+    return res.status(200).json({ msg: "You have hit test" });
+});
+
 module.exports = router;
 
 function authenticate(req, res) {
