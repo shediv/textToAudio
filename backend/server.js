@@ -1,41 +1,76 @@
-// We’ll declare all our dependencies here
-const express = require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const config = require('./config/database');
-const taskCtrl = require('./controllers/tasks/tasks.controller');
-const authCtrl = require('./controllers/auth/auth.controller');
-const errorHandler = require('./_helpers/error-handler');
-const jwt = require('./_helpers/jwt');
+/*
+ |--------------------------------------
+ | Dependencies
+ |--------------------------------------
+ */
 
-//Initialize our app variable
+// Modules
+const express = require('express');
+const path = require('path');
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+const methodOverride = require('method-override');
+const cors = require('cors');
+
+// Config
+const config = require('./server/config');
+// [SH] Require Passport
+var passport = require('passport');
+
+/*
+ |--------------------------------------
+ | MongoDB
+ |--------------------------------------
+ */
+
+mongoose.connect(config.MONGO_URI);
+const monDb = mongoose.connection;
+
+monDb.on('error', function() {
+  console.error('MongoDB Connection Error. Please make sure that', config.MONGO_URI, 'is running.');
+});
+
+monDb.once('open', function callback() {
+  console.info('Connected to MongoDB:', config.MONGO_URI);
+});
+
+/*
+ |--------------------------------------
+ | App
+ |--------------------------------------
+ */
+
 const app = express();
 
-//Middlewares for bodyparsing using both json and urlencoding
-app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-
-//Middleware for CORS
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(methodOverride('X-HTTP-Method-Override'));
 app.use(cors());
 
-// use JWT auth to secure the api
-app.use(jwt());
+// [SH] Initialise Passport before using the route middleware
+app.use(passport.initialize());
 
-app.get('/', (req, res) => {
-  res.send("Invalid page");
-})
+// Set port
+const port = process.env.PORT || '4206';
+app.set('port', port);
 
-//Routing all HTTP requests to /bucketlist to tasks controller
-app.use('/task', taskCtrl);
+app.get("/uploads/:filename", (req, res) => {
+  res.sendFile(path.join(__dirname, "./uploads/", req.params.filename));
+});
 
-//Routing all HTTP requests to /auth to auth controller
-app.use('/auth', authCtrl);
 
-// global error handler
-app.use(errorHandler);
+/*
+ |--------------------------------------
+ | Routes
+ |--------------------------------------
+ */
 
-//Declaring Port
-const port = process.env.NODE_ENV === 'production' ? 80 : 3000;
-app.listen(port, () => {
-  console.log('Server listening on port ' + port);
-})
+require('./server/api')(app, config);
+
+/*
+ |--------------------------------------
+ | Server
+ |--------------------------------------
+ */
+
+app.listen(port, () => console.log(`Server running on localhost:${port}`));
