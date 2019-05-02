@@ -166,7 +166,7 @@ module.exports = function(app, config) {
                 });
 
                 console.log("Started shell Script");
-                const shellScriptPath = __dirname + '/test.sh ';
+                const shellScriptPath = __dirname + '/gpuCall.sh ';
                 exec(shellScriptPath + textPath, function(status, output) {
                   console.log('Exit status:', status);
                   console.log('Program output:', output);
