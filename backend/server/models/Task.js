@@ -11,6 +11,15 @@ let TaskSchema = new mongoose.Schema({
     description: {
         type: String,
         required: false
+    },
+    isAudioReady: {
+        type: Boolean        
+    },
+    isMailSent: {
+        type: Boolean
+    },
+    audioFileUrl: {
+        type: Array
     }
 });
 TaskSchema.plugin(mongoosePaginate);

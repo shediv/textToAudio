@@ -10,6 +10,7 @@ const jwks = require('jwks-rsa');
 var passport = require('passport');
 var nodemailer = require('nodemailer');
 const fs = require("fs");
+const exec = require('child_process').exec;
 const Event = require('./models/Event');
 const Rsvp = require('./models/Rsvp');
 const User = require('./models/User');
@@ -139,7 +140,10 @@ module.exports = function(app, config) {
   app.post('/api/task', auth, (req, res, next) => {
     let newTask = new Task({
         email: req.body.email,
-        description: req.body.description
+        description: req.body.description,
+        isAudioReady: false,
+        isMailSent: false,
+        audioFileUrl: []
     });
     Task.addTask(newTask, (err, list) => {
         if (err) {
@@ -149,14 +153,25 @@ module.exports = function(app, config) {
             });
 
         } else {
-            const textPath = "textFiles/"+req.body.email+"_"+new Date()+"_temp.txt";
+            //const textPath = __dirname +'/textFiles/'+list.id+'.txt';
+            const textPath = __dirname +'/textFiles/text.txt';
             fs.writeFile(textPath, req.body.description, (err) => {
-                if (err) console.log(err);
+              if (err){
+                console.log(err);
+              }else{
                 console.log("Successfully Written to File.");
                 res.status(200).json({
                     success: true,
                     message: "Added successfully."
                 });
+
+                console.log("Started shell Script");
+                const shellScriptPath = __dirname + '/test.sh ';
+                exec(shellScriptPath + textPath, function(status, output) {
+                  console.log('Exit status:', status);
+                  console.log('Program output:', output);
+                });
+              }
             });
         }    
     });
