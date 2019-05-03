@@ -66,7 +66,7 @@ module.exports = function(app, config) {
 
   //Serve Audio file
   app.get("/api/audios/:filename", (req, res) => {
-    res.sendFile(path.join(__dirname, "../infered_audios/"+req.params.filename));
+    res.sendFile(path.join(__dirname, "../infered_audios/"+req.params.filename+"/0.wav"));
   });
 
   // Add a new user

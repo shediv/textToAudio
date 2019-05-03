@@ -9,7 +9,8 @@ gcloud compute --project "instanttv-777" ssh --zone "us-central1-f" "mehul@audio
 
 rm -r infered_audios
 
-gcloud compute --project "instanttv-777" scp --recurse --zone "us-central1-f" "mehul@audio:~/infered_audios" ./
+#gcloud compute --project "instanttv-777" scp --recurse --zone "us-central1-f" "mehul@audio:~/infered_audios" ./
+gcloud compute --project "instanttv-777" scp --recurse --zone "us-central1-f" "mehul@audio:~/infered_audios" ./infered_audios/$1
 
 gcloud compute instances --project "instanttv-777" stop --zone "us-central1-f" "audio"
 
