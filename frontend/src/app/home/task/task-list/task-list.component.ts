@@ -10,6 +10,7 @@ import { TaskService } from '@appcore/services';
 import { UtilityService } from '@appcore/services/utility/utility.service';
 import { SelectionModel } from '@angular/cdk/collections';
 import { merge } from 'rxjs';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'mma-task-list',
@@ -23,6 +24,7 @@ export class TaskListComponent implements OnInit {
   dataSource: TaskListDataSource;
   isLoadingResults = true;
   isAllSelectedDb = false;
+  apiUrl: string;
   selection = new SelectionModel<string>(true, []);
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
   displayedColumns = ['select', 'email', 'description', 'action'];
@@ -34,6 +36,7 @@ export class TaskListComponent implements OnInit {
     private notificationService: NotificationService) { }
 
   ngOnInit() {
+    this.apiUrl = environment.apiUrl;
     this.dataSource = new TaskListDataSource(this.paginator, this.sort, this.activatedRoute, this.taskService, this.dataMustBeUpdated);
     this.utilityService.tick_then(() => {
       this.dataSource.isLoadingResults$.subscribe(isLoadingResults => {
