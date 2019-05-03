@@ -153,8 +153,8 @@ module.exports = function(app, config) {
             });
 
         } else {
-            //const textPath = __dirname +'/textFiles/'+list.id+'.txt';
-            const textPath = __dirname +'/textFiles/text.txt';
+            const textPath = __dirname +'/textFiles/'+list.id+'.txt';
+            //const textPath = __dirname +'/textFiles/text.txt';
             fs.writeFile(textPath, req.body.description, (err) => {
               if (err){
                 console.log(err);

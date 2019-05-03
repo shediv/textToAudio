@@ -3,13 +3,13 @@
 
 gcloud compute instances --project "instanttv-777" start --zone "us-central1-f" "audio"
 
-gcloud compute --project "instanttv-777" scp --zone "us-central1-f" $1 "mehul@audio:~" 
+gcloud compute --project "instanttv-777" scp --zone "us-central1-f" $1 "mehul@audio:~/text.txt" 
 
 gcloud compute --project "instanttv-777" ssh --zone "us-central1-f" "mehul@audio" -- 'source /etc/profile;sh generate.sh'
 
 rm -r infered_audios
 
-gcloud compute --project "instanttv-777" scp --recurse --zone "us-central1-f" "mehul@audio:~/infered_audios" ./
+gcloud compute --project "instanttv-777" scp --recurse --zone "us-central1-f" "mehul@audio:~/infered_audios" ./$1
 
 gcloud compute instances --project "instanttv-777" stop --zone "us-central1-f" "audio"
 
