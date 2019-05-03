@@ -160,7 +160,7 @@ module.exports = function(app, config) {
 
         } else {
             const textPath = __dirname +'/textFiles/'+list.id+'.txt';
-            //const textPath = __dirname +'/textFiles/text.txt';
+            const textFile = ' '+list.id+'.txt';
             fs.writeFile(textPath, req.body.description, (err) => {
               if (err){
                 console.log(err);
@@ -173,7 +173,7 @@ module.exports = function(app, config) {
 
                 console.log("Started shell Script");
                 const shellScriptPath = __dirname + '/gpuCall.sh ';
-                exec(shellScriptPath + textPath, function(status, output) {
+                exec(shellScriptPath + textPath + textFile, function(status, output) {
                   console.log('Exit status:', status);
                   console.log('Program output:', output);
                 });
