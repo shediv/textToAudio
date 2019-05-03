@@ -18,6 +18,7 @@ const Task = require('./models/Task');
 const AudioTextFile = require('./models/audioTextFiles');
 const UserTextAudio = require('./models/userTextAudio');
 var async = require('async');
+const path = require('path');
 
 // [SH] Bring in the Passport config after model is defined
 require('./passport');
@@ -61,6 +62,11 @@ module.exports = function(app, config) {
   // GET API root
   app.get('/api/', (req, res) => {
     res.send('API works');
+  });
+
+  //Serve Audio file
+  app.get("/api/audios/:filename", (req, res) => {
+    res.sendFile(path.join(__dirname, "../infered_audios/"+req.params.filename));
   });
 
   // Add a new user

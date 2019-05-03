@@ -78,6 +78,11 @@
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Description</th>
           <td mat-cell *matCellDef="let row">
             {{row.description}}
+            <audio controls>
+              <source src="http://localhost:4206/api/audios/0.wav" type="audio/ogg">
+              <source src="http://localhost:4206/api/audios/0.wav" type="audio/mpeg">
+            Your browser does not support the audio element.
+            </audio>
           </td>
         </ng-container>
 

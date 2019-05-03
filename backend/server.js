@@ -23,7 +23,7 @@ var passport = require('passport');
  |--------------------------------------
  */
 
-mongoose.connect(config.MONGO_URI);
+mongoose.connect(config.MONGO_URI, { useNewUrlParser: true });
 const monDb = mongoose.connection;
 
 monDb.on('error', function() {
